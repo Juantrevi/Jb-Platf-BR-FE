@@ -1837,6 +1837,7 @@ Dotenv is a zero-dependency module that loads environment variables from a .env 
 
 ```sh
 npm i morgan@1.10.0 dotenv@16.0.3
+npm i morgan dotenv
 ```
 
 ```js
