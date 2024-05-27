@@ -11,7 +11,6 @@ let jobs = [
     { id: nanoid(), company: 'microsoft', position: 'data scientist' },
 ];
 
-
 dotenv.config();
 
 const app = express();
@@ -46,12 +45,12 @@ app.use(express.json());
 //     console.log(e);
 // }
 
-
-
+//Regular GET request
 app.get('/', (req, res) => {
     res.send('Hello world')
 });
 
+//Regular POST request
 app.post('/', (req, res) => {
     console.log(req.body);
     res.json({ message: 'Data received', data: req.body});
@@ -114,6 +113,17 @@ app.delete('/api/v1/jobs/:id', (req, res) => {
     res.status(200).json({ msg: 'job deleted' });
 });
 
+app.use('*', (req, res) => {
+    res.status(404).json({ msg: 'not found' });
+});
+
+//This middleware has to be the LAST ONE!
+app.use((err, req, res, next) => {
+    console.log(err);
+    res.status(500).json({ msg: 'Something went wrong' });
+});
+
+// Configuring the port
 const port = process.env.PORT || 5100;
 app.listen(port, () => {
     console.log(`Server is running on port: ${port}`);
