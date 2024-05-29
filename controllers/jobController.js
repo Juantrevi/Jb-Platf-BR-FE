@@ -28,10 +28,31 @@ export const getAllJobs = async (req, res) => {
 
 // Create a new job (MongoDB)
 export const createJob = async (req, res) => {
-    const { company, position } = req.body;
-    const job = await Job.create({ company, position });
-    res.status(201).json({ job });
-};
+    /*
+    * Try and Catch
+    * We can use it to catch errors in our code
+    * in each controller function or we can
+    * install a package called express-async-errors
+
+    try {
+        const {company, position} = req.body;
+        const job = await Job.create({company, position});
+        res.status(201).json({job});
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({msg: error.message});
+    }
+   */
+
+
+    /*
+    * Using express-async-errors
+    * We can remove the try and catch block
+    * */
+    const {company, position} = req.body;
+    const job = await Job.create({company, position});
+    res.status(201).json({job});
+}
 
 
 export const getSingleJob = async (req, res) => {
