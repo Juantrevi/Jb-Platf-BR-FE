@@ -44,7 +44,6 @@ export const createJob = async (req, res) => {
     }
    */
 
-
     /*
     * Using express-async-errors
     * We can remove the try and catch block
@@ -54,16 +53,29 @@ export const createJob = async (req, res) => {
     res.status(201).json({job});
 }
 
-
-export const getSingleJob = async (req, res) => {
+/* Delete a job (Local Data)
+export const deleteJob = async (req, res) => {
     const { id } = req.params;
     const job = jobs.find(job => job.id === id);
     if (!job) {
         return res.status(404).json({ msg: `Job not found with id: ${id}`});
     }
-    res.status(200).json({ job });
+    jobs = jobs.filter(job => job.id !== id);
+    res.status(200).json({ msg: 'Job deleted' });
+}
+ */
+
+// Delete a job (MongoDB)
+export const deleteJob = async (req, res) => {
+    const { id } = req.params;
+    const removedJob = await Job.findByIdAndDelete(id);
+    if (!removedJob) {
+        return res.status(404).json({ msg: `Job not found with id: ${id}`});
+    }
+    res.status(200).json({ msg: 'Job deleted', job: removedJob });
 }
 
+/* Update a job (Local Data)
 export const updateJob = async (req, res) => {
     const { company, position } = req.body;
     if (!company || !position) {
@@ -78,13 +90,31 @@ export const updateJob = async (req, res) => {
     job.position = position;
     res.status(200).json({ msg: 'Job modified', job });
 }
+*/
 
-export const deleteJob = async (req, res) => {
+// Update a job (MongoDB)
+export const updateJob = async (req, res) => {
+
+    const { id } = req.params;
+
+    const updatedJob = await Job.findByIdAndUpdate(id, req.body, { new: true })
+
+    if (!updatedJob) {
+        return res.status(404).json({ msg: `Job not found with id: ${id}`});
+    }
+
+    res.status(200).json({ msg: 'Job modified', job: updatedJob });
+}
+
+
+export const getSingleJob = async (req, res) => {
     const { id } = req.params;
     const job = jobs.find(job => job.id === id);
     if (!job) {
         return res.status(404).json({ msg: `Job not found with id: ${id}`});
     }
-    jobs = jobs.filter(job => job.id !== id);
-    res.status(200).json({ msg: 'Job deleted' });
+    res.status(200).json({ job });
 }
+
+
+
