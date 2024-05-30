@@ -7,4 +7,5 @@ const errorHandlerMiddleware = (err, req, res, next) => {
     return res.status(statusCode).json({ msg });
 }
 
+
 export default errorHandlerMiddleware;

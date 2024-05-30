@@ -5,6 +5,17 @@ import * as dotenv from 'dotenv';
 import jobRouter from './routes/jobRouter.js';
 import mongoose from "mongoose";
 import errorHandlerMiddleware from './middleware/errorHandlerMiddleware.js';
+import { validateTest } from "./middleware/validationMiddleware.js";
+
+
+/*
+* Considerations:
+* In this project the libraries used are:
+* - http-status-codes (res.status(200).json({ jobs }); -> res.status(StatusCodes.OK).json({ jobs });)
+* - express-async-errors
+* - 404 is handled in a custom class
+* - express-validator
+ */
 
 dotenv.config();
 
@@ -45,11 +56,16 @@ app.use(express.json());
 //     res.send('Hello world')
 // });
 //
-// //Regular POST request
-// app.post('/', (req, res) => {
-//     console.log(req.body);
-//     res.json({ message: 'Data received', data: req.body});
-// });
+
+//Regular POST request (Testing validation)
+app.post(
+    '/api/v1/test',
+    validateTest,
+    (req, res) => {
+        const { name } = req.body;
+        res.json({ message: `Hello ${name}` });
+    }
+)
 
 app.use('/api/v1/jobs', jobRouter);
 
@@ -64,8 +80,6 @@ app.use(errorHandlerMiddleware);
 //     console.log(err);
 //     res.status(500).json({ msg: 'Something went wrong' });
 // });
-
-
 
 // Configuring the port
 const port = process.env.PORT || 5100;
