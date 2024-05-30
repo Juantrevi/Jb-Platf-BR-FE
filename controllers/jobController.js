@@ -1,6 +1,17 @@
 import { nanoid } from 'nanoid';
 import Job from '../models/jobModel.js';
+import {StatusCodes} from "http-status-codes";
+import { NotFoundError } from "../errors/customErrors.js";
 
+/*
+* Considerations:
+* In this project the libraries used are:
+* - http-status-codes (res.status(200).json({ jobs }); -> res.status(StatusCodes.OK).json({ jobs });)
+* - express-async-errors
+* - 404 is handled in a custom class
+ */
+
+/* Local Data
 let jobs = [
     { id: nanoid(), company: 'apple', position: 'front-end' },
     { id: nanoid(), company: 'google', position: 'back-end' },
@@ -8,9 +19,18 @@ let jobs = [
     { id: nanoid(), company: 'amazon', position: 'devops' },
     { id: nanoid(), company: 'microsoft', position: 'data scientist' },
 ];
+ */
 
+/* Get all jobs (Local Data)
 export const getAllJobs = async (req, res) => {
     res.status(200).json({ jobs });
+}
+ */
+
+// Get all jobs (MongoDB)
+export const getAllJobs = async (req, res) => {
+    const jobs = await Job.find();
+    res.status(StatusCodes.OK).json({ jobs });
 }
 
 /* Create a new job (Local Data)
@@ -50,7 +70,7 @@ export const createJob = async (req, res) => {
     * */
     const {company, position} = req.body;
     const job = await Job.create({company, position});
-    res.status(201).json({job});
+    res.status(StatusCodes.CREATED).json({job});
 }
 
 /* Delete a job (Local Data)
@@ -69,10 +89,10 @@ export const deleteJob = async (req, res) => {
 export const deleteJob = async (req, res) => {
     const { id } = req.params;
     const removedJob = await Job.findByIdAndDelete(id);
-    if (!removedJob) {
-        return res.status(404).json({ msg: `Job not found with id: ${id}`});
-    }
-    res.status(200).json({ msg: 'Job deleted', job: removedJob });
+
+    if (!removedJob) throw new NotFoundError(`Job not found with id: ${id}`);
+
+    res.status(StatusCodes.OK).json({ msg: 'Job deleted', job: removedJob });
 }
 
 /* Update a job (Local Data)
@@ -99,14 +119,12 @@ export const updateJob = async (req, res) => {
 
     const updatedJob = await Job.findByIdAndUpdate(id, req.body, { new: true })
 
-    if (!updatedJob) {
-        return res.status(404).json({ msg: `Job not found with id: ${id}`});
-    }
+    if (!updatedJob) throw new NotFoundError(`Job not found with id: ${id}`);
 
-    res.status(200).json({ msg: 'Job modified', job: updatedJob });
+    res.status(StatusCodes.OK).json({ msg: 'Job modified', job: updatedJob });
 }
 
-
+/* Get a single job (Local Data)
 export const getSingleJob = async (req, res) => {
     const { id } = req.params;
     const job = jobs.find(job => job.id === id);
@@ -115,6 +133,14 @@ export const getSingleJob = async (req, res) => {
     }
     res.status(200).json({ job });
 }
+ */
 
+// Get a single job (MongoDB)
+export const getSingleJob = async (req, res) => {
+    const {id} = req.params;
+    const job = await Job.findById(id);
+    if (!job) throw new NotFoundError(`Job not found with id: ${id}`);
+    res.status(StatusCodes.OK).json({job});
+}
 
 

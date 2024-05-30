@@ -4,7 +4,7 @@ import morgan from 'morgan';
 import * as dotenv from 'dotenv';
 import jobRouter from './routes/jobRouter.js';
 import mongoose from "mongoose";
-
+import errorHandlerMiddleware from './middleware/errorHandlerMiddleware.js';
 
 dotenv.config();
 
@@ -41,15 +41,15 @@ app.use(express.json());
 // }
 
 //Regular GET request
-app.get('/', (req, res) => {
-    res.send('Hello world')
-});
-
-//Regular POST request
-app.post('/', (req, res) => {
-    console.log(req.body);
-    res.json({ message: 'Data received', data: req.body});
-});
+// app.get('/', (req, res) => {
+//     res.send('Hello world')
+// });
+//
+// //Regular POST request
+// app.post('/', (req, res) => {
+//     console.log(req.body);
+//     res.json({ message: 'Data received', data: req.body});
+// });
 
 app.use('/api/v1/jobs', jobRouter);
 
@@ -57,11 +57,15 @@ app.use('*', (req, res) => {
     res.status(404).json({ msg: 'not found' });
 });
 
-//This middleware has to be the LAST ONE!
-app.use((err, req, res, next) => {
-    console.log(err);
-    res.status(500).json({ msg: 'Something went wrong' });
-});
+app.use(errorHandlerMiddleware);
+
+// //This middleware has to be the LAST ONE!
+// app.use((err, req, res, next) => {
+//     console.log(err);
+//     res.status(500).json({ msg: 'Something went wrong' });
+// });
+
+
 
 // Configuring the port
 const port = process.env.PORT || 5100;
