@@ -68,9 +68,9 @@ export const createJob = async (req, res) => {
     * Using express-async-errors
     * We can remove the try and catch block
     * */
-    const {company, position} = req.body;
-    const job = await Job.create({company, position});
+    const job = await Job.create(req.body);
     res.status(StatusCodes.CREATED).json({job});
+
 }
 
 /* Delete a job (Local Data)
@@ -114,10 +114,8 @@ export const updateJob = async (req, res) => {
 
 // Update a job (MongoDB)
 export const updateJob = async (req, res) => {
-
     const { id } = req.params;
-
-    const updatedJob = await Job.findByIdAndUpdate(id, req.body, { new: true })
+    const updatedJob = await Job.findByIdAndUpdate(id, req.body, { new: true, runValidators: true })
 
     if (!updatedJob) throw new NotFoundError(`Job not found with id: ${id}`);
 

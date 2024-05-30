@@ -5,7 +5,6 @@ import * as dotenv from 'dotenv';
 import jobRouter from './routes/jobRouter.js';
 import mongoose from "mongoose";
 import errorHandlerMiddleware from './middleware/errorHandlerMiddleware.js';
-import { validateTest } from "./middleware/validationMiddleware.js";
 
 
 /*
@@ -58,14 +57,14 @@ app.use(express.json());
 //
 
 //Regular POST request (Testing validation)
-app.post(
-    '/api/v1/test',
-    validateTest,
-    (req, res) => {
-        const { name } = req.body;
-        res.json({ message: `Hello ${name}` });
-    }
-)
+// app.post(
+//     '/api/v1/test',
+//     validateTest,
+//     (req, res) => {
+//         const { name } = req.body;
+//         res.json({ message: `Hello ${name}` });
+//     }
+// )
 
 app.use('/api/v1/jobs', jobRouter);
 
