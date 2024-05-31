@@ -1,5 +1,5 @@
 import {body, validationResult} from "express-validator";
-import {BadRequestError, NotFoundError} from "../errors/customErrors.js";
+import {BadRequestError, NotFoundError, UnauthorizedError} from "../errors/customErrors.js";
 import {JOB_STATUS, JOB_TYPE} from "../utils/constants.js";
 import mongoose from 'mongoose';
 import { param } from 'express-validator';
@@ -15,6 +15,9 @@ const withValidationErrors = (validateValues) => {
                 const errorMessages = errors.array().map((error) => error.msg);
                 if(errorMessages[0].startsWith('Job not')){
                     throw new NotFoundError(errorMessages);
+                }
+                if(errorMessages[0].startsWith('You are not authorized')){
+                    throw new UnauthorizedError('You are not authorized to do this action');
                 }
                 throw new BadRequestError(errorMessages);
             }
@@ -55,12 +58,14 @@ export const validateJobInput = withValidationErrors([
 // thrown in the withValidationErrors function
 export const validateIdParam = withValidationErrors([
     param('id')
-        .custom(async (value) => {
+        .custom(async (value, { req }) => {
             const isValidId = mongoose.Types.ObjectId.isValid(value);
             if (!isValidId) throw new BadRequestError('invalid MongoDB id');
             const job = await Job.findById(value);
             if (!job) throw new NotFoundError(`Job not found with id: ${value}`);
-
+            const isAdmin = req.user.role === 'admin';
+            const isOwner = job.createdBy.toString() === req.user.userId;
+            if (!isAdmin && !isOwner) throw new UnauthorizedError('You are not authorized to do this action');
 
         })
 ]);
