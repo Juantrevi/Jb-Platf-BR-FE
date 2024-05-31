@@ -50,6 +50,8 @@ export const validateJobInput = withValidationErrors([
 ]);
 
 // Validating id parameter for MongoDB (Because MongoDB uses ObjectIds, which are not the same as regular strings)
+// The BadRequestError and NotFoundError could be replaced by a regular js Error, because the true error will be
+// thrown in the withValidationErrors function
 export const validateIdParam = withValidationErrors([
     param('id')
         .custom(async (value) => {
