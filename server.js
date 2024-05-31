@@ -16,6 +16,9 @@ import errorHandlerMiddleware from './middleware/errorHandlerMiddleware.js';
 * - 404 is handled in a custom class
 * - express-validator
 * - Bcrypt for password hashing (npm i bcryptjs)
+* - dotenv for environment variables
+* - mongoose for MongoDB
+* - JWT for authentication (npm i jsonwebtoken) (HTTP cookies -> a very way to secure communication back and forth)
  */
 
 dotenv.config();
