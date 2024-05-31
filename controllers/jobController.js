@@ -9,6 +9,8 @@ import { NotFoundError } from "../errors/customErrors.js";
 * - http-status-codes (res.status(200).json({ jobs }); -> res.status(StatusCodes.OK).json({ jobs });)
 * - express-async-errors
 * - 404 is handled in a custom class
+* - The NOT FOUND in all the methods is handled by the custom class, in the validationMiddleware.js
+* a layer on top of the controller. (This is to leave the controllers as clean as possible)
  */
 
 /* Local Data
@@ -87,11 +89,8 @@ export const deleteJob = async (req, res) => {
 
 // Delete a job (MongoDB)
 export const deleteJob = async (req, res) => {
-    const { id } = req.params;
-    const removedJob = await Job.findByIdAndDelete(id);
 
-    if (!removedJob) throw new NotFoundError(`Job not found with id: ${id}`);
-
+    const removedJob = await Job.findByIdAndDelete(req.params.id);
     res.status(StatusCodes.OK).json({ msg: 'Job deleted', job: removedJob });
 }
 
@@ -114,11 +113,8 @@ export const updateJob = async (req, res) => {
 
 // Update a job (MongoDB)
 export const updateJob = async (req, res) => {
-    const { id } = req.params;
-    const updatedJob = await Job.findByIdAndUpdate(id, req.body, { new: true, runValidators: true })
 
-    if (!updatedJob) throw new NotFoundError(`Job not found with id: ${id}`);
-
+    const updatedJob = await Job.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true })
     res.status(StatusCodes.OK).json({ msg: 'Job modified', job: updatedJob });
 }
 
@@ -135,9 +131,8 @@ export const getSingleJob = async (req, res) => {
 
 // Get a single job (MongoDB)
 export const getSingleJob = async (req, res) => {
-    const {id} = req.params;
-    const job = await Job.findById(id);
-    if (!job) throw new NotFoundError(`Job not found with id: ${id}`);
+
+    const job = await Job.findById(req.params.id);
     res.status(StatusCodes.OK).json({job});
 }
 

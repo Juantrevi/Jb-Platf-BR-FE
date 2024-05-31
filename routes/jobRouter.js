@@ -13,8 +13,8 @@ router.route('/')
 
 router.route('/:id')
     .get(validateIdParam, getSingleJob)
-    .patch(validateJobInput, updateJob)
-    .delete(deleteJob);
+    .patch(validateIdParam, validateJobInput, updateJob)
+    .delete(validateIdParam, deleteJob);
 
 export default router;
 
