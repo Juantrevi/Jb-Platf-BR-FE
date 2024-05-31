@@ -15,6 +15,7 @@ import errorHandlerMiddleware from './middleware/errorHandlerMiddleware.js';
 * - express-async-errors
 * - 404 is handled in a custom class
 * - express-validator
+* - Bcrypt for password hashing (npm i bcryptjs)
  */
 
 dotenv.config();
