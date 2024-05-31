@@ -11,14 +11,19 @@ const withValidationErrors = (validateValues) => {
     return [validateValues,
         (req, res, next) => {
             const errors = validationResult(req);
+            // Check if there are any errors
             if (!errors.isEmpty()) {
                 const errorMessages = errors.array().map((error) => error.msg);
+
+                // Check if the error is a job not found error
                 if(errorMessages[0].startsWith('Job not')){
                     throw new NotFoundError(errorMessages);
                 }
+                // Check if the error is because the user is not authorized
                 if(errorMessages[0].startsWith('You are not authorized')){
                     throw new UnauthorizedError('You are not authorized to do this action');
                 }
+
                 throw new BadRequestError(errorMessages);
             }
             next();
@@ -59,10 +64,15 @@ export const validateJobInput = withValidationErrors([
 export const validateIdParam = withValidationErrors([
     param('id')
         .custom(async (value, { req }) => {
+            // Check if the id is a valid MongoDB id
             const isValidId = mongoose.Types.ObjectId.isValid(value);
             if (!isValidId) throw new BadRequestError('invalid MongoDB id');
+
+            // Check if the job exists
             const job = await Job.findById(value);
             if (!job) throw new NotFoundError(`Job not found with id: ${value}`);
+
+            // Check if the user is an admin or the owner of the job so they can update or delete it
             const isAdmin = req.user.role === 'admin';
             const isOwner = job.createdBy.toString() === req.user.userId;
             if (!isAdmin && !isOwner) throw new UnauthorizedError('You are not authorized to do this action');
