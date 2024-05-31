@@ -14,3 +14,7 @@ export const createJWT = (payload) => {
 * with every request since the JWT will be located in the cookie and
 * in the server we will decode it to get the user's information
 * */
+export const verifyJWT = (token) => {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    return decoded;
+}

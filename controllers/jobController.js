@@ -31,7 +31,9 @@ export const getAllJobs = async (req, res) => {
 
 // Get all jobs (MongoDB)
 export const getAllJobs = async (req, res) => {
-    const jobs = await Job.find();
+
+    // When the user makes the request with the token we only provide jobs that belongs to the specific user
+    const jobs = await Job.find({ createdBy: req.user.userId } );
     res.status(StatusCodes.OK).json({ jobs });
 }
 
@@ -70,6 +72,7 @@ export const createJob = async (req, res) => {
     * Using express-async-errors
     * We can remove the try and catch block
     * */
+    req.body.createdBy = req.user.userId;
     const job = await Job.create(req.body);
     res.status(StatusCodes.CREATED).json({job});
 
