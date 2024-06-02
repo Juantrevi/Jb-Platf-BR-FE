@@ -24,6 +24,7 @@ import userRouter from "./routes/userRouter.js";
 * - package to allow us to access the cookie parser (npm i cookie-parser)
 * - concurrently to run the server and the client at the same time (npm i concurrently) in package.json
 * - axios for fetching data from an API (npm i axios)
+* - toasts for notifications (npm i react-toastify)
  */
 
 dotenv.config();
