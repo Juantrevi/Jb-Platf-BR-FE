@@ -12,7 +12,9 @@ import {
     Profile,
     Admin
 } from "./pages/index.js";
-import {action as registerAction} from "./pages/Register.jsx";
+import { action as registerAction} from "./pages/Register.jsx";
+import { action as loginAction} from "./pages/Login.jsx";
+
 
 export const checkDefaultTheme = () => {
     //Check if dark theme is enabled
@@ -45,6 +47,7 @@ const router = createBrowserRouter([
             {
                 path: "login",
                 element: <Login/>,
+                action: loginAction,
             },
             {
                 path: "dashboard",
