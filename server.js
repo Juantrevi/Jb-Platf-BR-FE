@@ -22,6 +22,8 @@ import userRouter from "./routes/userRouter.js";
 * - mongoose for MongoDB
 * - JWT for authentication (npm i jsonwebtoken) (HTTP cookies -> a very way to secure communication back and forth)
 * - package to allow us to access the cookie parser (npm i cookie-parser)
+* - concurrently to run the server and the client at the same time (npm i concurrently) in package.json
+* - axios for fetching data from an API (npm i axios)
  */
 
 dotenv.config();
@@ -80,9 +82,9 @@ app.use('/api/v1/users', authenticateUser, userRouter);
 app.use('/api/v1/auth', authRouter);
 
 
-app.use('*', (req, res) => {
-    res.status(404).json({ msg: 'not found' });
-});
+// app.use('*', (req, res) => {
+//     res.status(404).json({ msg: 'not found' });
+// });
 
 app.use(errorHandlerMiddleware);
 
@@ -95,6 +97,10 @@ app.use(errorHandlerMiddleware);
 // Configuring the port
 const port = process.env.PORT || 5100;
 
+app.get('/api/v1/test', (req, res) => {
+    res.json({ msg: 'test route' });
+});
+
 //Connecting to the DB
 try {
     await mongoose.connect(process.env.MONGO_URL);
@@ -105,4 +111,7 @@ try {
     console.log(error);
     process.exit(1);
 }
+
+
+
 

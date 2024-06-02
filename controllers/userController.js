@@ -26,6 +26,6 @@ export const updateUser = async (req, res) => {
     console.log(obj);
 
     const updatedUser = await User.findByIdAndUpdate(req.user.userId, obj);
-    res.status(StatusCodes.OK).json({msg: 'update user'});
+    res.status(StatusCodes.OK).json({msg: 'updated user'});
 
 }
