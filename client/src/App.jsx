@@ -17,6 +17,9 @@ import { action as loginAction} from "./pages/Login.jsx";
 import { action as addJob} from "./pages/AddJob.jsx";
 import {loader as dashboardLoader} from "./pages/DashboardLayout.jsx";
 import {loader as allJobsLoader} from "./pages/AllJobs.jsx";
+import EditJob from './pages/EditJob'
+import { loader as editJobLoader } from './pages/EditJob';
+import { action as editJobAction } from './pages/EditJob';
 
 
 export const checkDefaultTheme = () => {
@@ -65,6 +68,12 @@ const router = createBrowserRouter([
                     {
                         path: "stats",
                         element: <Stats/>,
+                    },
+                    {
+                        path: 'edit-job/:id',
+                        element: <EditJob />,
+                        loader: editJobLoader,
+                        action: editJobAction,
                     },
                     {
                         path: "all-jobs",

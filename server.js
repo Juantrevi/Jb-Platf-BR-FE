@@ -25,6 +25,7 @@ import userRouter from "./routes/userRouter.js";
 * - concurrently to run the server and the client at the same time (npm i concurrently) in package.json
 * - axios for fetching data from an API (npm i axios)
 * - toasts for notifications (npm i react-toastify)
+* - dayjs for date formatting (npm i dayjs) There are some default and custom formats
  */
 
 dotenv.config();
