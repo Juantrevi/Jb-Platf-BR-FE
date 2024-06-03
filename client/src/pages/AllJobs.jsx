@@ -5,11 +5,12 @@ import { useLoaderData } from 'react-router-dom';
 import { useContext, createContext } from 'react';
 
 export const loader = async () => {
-
     try {
         const data = await customFetch.get('/jobs');
-        return { data };
-    }catch(error){
+        console.log('Data from /jobs:', data);
+        return  data ;
+    } catch (error) {
+        console.error('Error fetching jobs:', error);
         toast.error(error?.response?.data?.msg);
         return error;
     }
@@ -22,17 +23,16 @@ const AllJobs = () => {
     // Pass the data to the context provider. It will be available to all children
     // like passing props to all children, but with context. This is a better way to
     // pass data to deeply nested components.
-    return<AllJobsContext.Provider value={{data}}>
-        <SearchContainer/>
-        <JobsContainer />
-    </AllJobsContext.Provider>
-
+    return (
+        <AllJobsContext.Provider value={{ data }}>
+            <SearchContainer />
+            <JobsContainer />
+        </AllJobsContext.Provider>
+    );
 };
 
 // Create a custom hook to use the data in the context
 // This is a better way to access the data in the context
-export const useAllJobs = () => {
-    return useContext(AllJobsContext);
-};
+export const useAllJobsContext = () => useContext(AllJobsContext);
 
 export default AllJobs
