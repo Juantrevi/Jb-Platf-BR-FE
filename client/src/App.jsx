@@ -14,6 +14,7 @@ import {
 } from "./pages/index.js";
 import { action as registerAction} from "./pages/Register.jsx";
 import { action as loginAction} from "./pages/Login.jsx";
+import { action as addJob} from "./pages/AddJob.jsx";
 import {loader as dashboardLoader} from "./pages/DashboardLayout.jsx";
 
 
@@ -58,6 +59,7 @@ const router = createBrowserRouter([
                     {
                         index: true,
                         element: <AddJob/>,
+                        action: addJob,
                     },
                     {
                         path: "stats",

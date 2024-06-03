@@ -7,10 +7,26 @@ import { toast } from 'react-toastify';
 import customFetch from '../utils/customFetch';
 
 
+export const action = async ({ request }) => {
+    const formData = await request.formData();
+    const data = Object.fromEntries(formData);
+
+    console.log(data)
+    try {
+        await customFetch.post('/jobs', data);
+        toast.success('Job added successfully');
+        return redirect('all-jobs');
+    } catch (error) {
+        toast.error(error?.response?.data?.msg);
+        return error;
+    }
+};
+
 const AddJob = () => {
     const { user } = useOutletContext();
     const navigation = useNavigation();
     const isSubmitting = navigation.state === 'submitting';
+
 
     return (
         <Wrapper>
@@ -26,14 +42,14 @@ const AddJob = () => {
                         defaultValue={user.location}
                     />
                     <FormRowSelect
-                        name='job status'
-                        labelText='jobStatus'
+                        name='jobStatus'
+                        labelText='Job Status'
                         defaultValue={JOB_STATUS.PENDING}
                         list={Object.values(JOB_STATUS)}
                     />
                     <FormRowSelect
-                        name='job type'
-                        labelText='jobType'
+                        name='jobType'
+                        labelText='Job Type'
                         defaultValue={JOB_TYPE.FULL_TIME}
                         list={Object.values(JOB_TYPE)}
                     />
