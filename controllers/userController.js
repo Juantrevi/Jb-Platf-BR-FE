@@ -8,7 +8,7 @@ export const getCurrentUser = async (req, res) => {
 
     //Remove password from the user object (Check userModel.js)
     const userWithoutPassword = user.toJSON();
-    res.status(StatusCodes.OK).json({ userWithoutPassword });
+    res.status(StatusCodes.OK).json({ user: userWithoutPassword });
 
 }
 
