@@ -46,6 +46,7 @@ const DashboardLayout = () => {
     };
 
     return (
+        // Here we pass the user to the context provider
         <DashboardContext.Provider value={{
             user,
             showSidebar,
