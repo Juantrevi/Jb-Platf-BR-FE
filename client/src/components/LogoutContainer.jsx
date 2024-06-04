@@ -15,7 +15,8 @@ const { user, logoutUser } = useDashboardContext();
                     className='btn logout-btn'
                     onClick={() => setShowLogout(!showLogout)}
                 >
-                    <FaUserCircle />
+                    { user.avatar? <img src={user.avatar} alt={user.name} className='img' /> : (<FaUserCircle />) }
+
                     { user?.name }
                     <FaCaretDown />
                 </button>

@@ -17,7 +17,7 @@
   "dependencies": {
     "@vitejs/plugin-react": "^4.3.0",
     "bcryptjs": "^2.4.3",
-    "cloudinary": "^1.37.3",
+    "cloudinary": "^1.41.3",
     "concurrently": "^8.2.2",
     "cookie-parser": "^1.4.6",
     "datauri": "^4.1.0",

@@ -1,6 +1,8 @@
 import StatusCodes from 'http-status-codes';
 import User from '../models/userModel.js';
 import Job from "../models/jobModel.js";
+import cloudinary from "cloudinary";
+import { promises as fs } from "fs";
 
 export const getCurrentUser = async (req, res) => {
     // Find the user by the userId
@@ -21,11 +23,21 @@ export const getApplicationStats = async (req, res) => {
 
 export const updateUser = async (req, res) => {
 
-    const obj = { ...req.body };
-    delete obj.password;
-    console.log(obj);
+    const newUser = { ...req.body };
+    delete newUser.password;
 
-    const updatedUser = await User.findByIdAndUpdate(req.user.userId, obj);
+    if (req.file) {
+        const response = await cloudinary.v2.uploader.upload(req.file.path,
+            {quality: "auto", fetch_format: "auto"});
+        await fs.unlink(req.file.path);
+        newUser.avatar = response.secure_url;
+        newUser.avatarPublicId = response.public_id;
+    }
+
+    const updatedUser = await User.findByIdAndUpdate(req.user.userId, newUser);
+    if (req.file && updatedUser.avatarPublicId) {
+        await cloudinary.v2.uploader.destroy(updatedUser.avatarPublicId);
+    }
     res.status(StatusCodes.OK).json({msg: 'updated user'});
 
 }

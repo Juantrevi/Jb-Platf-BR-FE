@@ -9,10 +9,11 @@ import errorHandlerMiddleware from './middleware/errorHandlerMiddleware.js';
 import { authenticateUser } from './middleware/authMiddleware.js';
 import cookieParser from 'cookie-parser';
 import userRouter from "./routes/userRouter.js";
-// public
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
 import path from 'path';
+import cloudinary from 'cloudinary';
+
 
 /*
 * Considerations:
@@ -30,6 +31,8 @@ import path from 'path';
 * - axios for fetching data from an API (npm i axios)
 * - toasts for notifications (npm i react-toastify)
 * - dayjs for date formatting (npm i dayjs) There are some default and custom formats
+* - multer for file uploads (npm i multer)
+* - cloudinary for image uploads (npm i cloudinary)
  */
 
 dotenv.config();
@@ -41,6 +44,12 @@ if (process.env.NODE_ENV === 'development') {
     console.log('Development mode');
     //console.log(process.env.MY_SECRET);
 }
+
+cloudinary.config({
+    cloud_name: process.env.CLOUD_NAME,
+    api_key: process.env.CLOUD_API_KEY,
+    api_secret: process.env.CLOUD_API_SECRET,
+});
 
 // This is a way to get the current directory
 const __dirname = dirname(fileURLToPath(import.meta.url));
