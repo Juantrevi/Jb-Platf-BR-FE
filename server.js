@@ -9,6 +9,10 @@ import errorHandlerMiddleware from './middleware/errorHandlerMiddleware.js';
 import { authenticateUser } from './middleware/authMiddleware.js';
 import cookieParser from 'cookie-parser';
 import userRouter from "./routes/userRouter.js";
+// public
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
+import path from 'path';
 
 /*
 * Considerations:
@@ -37,6 +41,11 @@ if (process.env.NODE_ENV === 'development') {
     console.log('Development mode');
     //console.log(process.env.MY_SECRET);
 }
+
+// This is a way to get the current directory
+const __dirname = dirname(fileURLToPath(import.meta.url));
+// Special middleware available with express to serve static files
+app.use(express.static(path.resolve(__dirname, './public')));
 
 app.use(cookieParser());
 app.use(express.json());
