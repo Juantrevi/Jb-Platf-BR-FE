@@ -21,6 +21,8 @@ import { action as editJobAction } from './pages/EditJob';
 import { loader as dashboardLoader} from "./pages/DashboardLayout.jsx";
 import { loader as allJobsLoader} from "./pages/AllJobs.jsx";
 import { loader as editJobLoader } from './pages/EditJob';
+import { loader as adminLoader } from './pages/Admin';
+
 
 
 
@@ -91,8 +93,9 @@ const router = createBrowserRouter([
                         element: <Profile/>,
                     },
                     {
-                        path: "admin",
-                        element: <Admin/>,
+                        path: 'admin',
+                        element: <Admin />,
+                        loader: adminLoader,
                     },
                 ],
             },
