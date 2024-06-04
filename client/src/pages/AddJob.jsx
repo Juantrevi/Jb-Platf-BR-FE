@@ -6,7 +6,10 @@ import { Form, useNavigation, redirect } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import customFetch from '../utils/customFetch';
 
-
+/*
+* Action:
+* - Submits the form data to the server to add a new job.
+* */
 export const action = async ({ request }) => {
     const formData = await request.formData();
     const data = Object.fromEntries(formData);

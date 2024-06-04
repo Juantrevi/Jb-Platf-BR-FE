@@ -10,16 +10,18 @@ import {
     Stats,
     AllJobs,
     Profile,
-    Admin
+    Admin,
+    EditJob
 } from "./pages/index.js";
 import { action as registerAction} from "./pages/Register.jsx";
 import { action as loginAction} from "./pages/Login.jsx";
 import { action as addJob} from "./pages/AddJob.jsx";
-import {loader as dashboardLoader} from "./pages/DashboardLayout.jsx";
-import {loader as allJobsLoader} from "./pages/AllJobs.jsx";
-import EditJob from './pages/EditJob'
-import { loader as editJobLoader } from './pages/EditJob';
+import { action as deleteJobAction } from './pages/DeleteJob.jsx';
 import { action as editJobAction } from './pages/EditJob';
+import { loader as dashboardLoader} from "./pages/DashboardLayout.jsx";
+import { loader as allJobsLoader} from "./pages/AllJobs.jsx";
+import { loader as editJobLoader } from './pages/EditJob';
+
 
 
 export const checkDefaultTheme = () => {
@@ -74,6 +76,10 @@ const router = createBrowserRouter([
                         element: <EditJob />,
                         loader: editJobLoader,
                         action: editJobAction,
+                    },
+                    {
+                        path: 'delete-job/:id',
+                        action: deleteJobAction
                     },
                     {
                         path: "all-jobs",

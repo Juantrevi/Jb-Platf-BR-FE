@@ -6,7 +6,10 @@ import { Form, useNavigation, redirect } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import customFetch from '../utils/customFetch';
 
-
+/*
+* Loader:
+* - Fetches the job data from the server using the job ID.
+* */
 export const loader = async ({ params }) => {
     try {
         const { data } = await customFetch.get(`/jobs/${params.id}`);
@@ -17,6 +20,10 @@ export const loader = async ({ params }) => {
     }
 };
 
+/*
+* Action:
+* - Submits the form data to the server to update the job.
+* */
 export const action = async ({ request, params }) => {
     const formData = await request.formData();
     const data = Object.fromEntries(formData);
