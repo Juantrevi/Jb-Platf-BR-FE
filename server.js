@@ -33,6 +33,10 @@ import cloudinary from 'cloudinary';
 * - dayjs for date formatting (npm i dayjs) There are some default and custom formats
 * - multer for file uploads (npm i multer)
 * - cloudinary for image uploads (npm i cloudinary)
+* - mockaroo for generating fake data (https://www.mockaroo.com/)
+* - mongoDb aggregation pipeline: Is a way to process data from a collection and return computed results inside mongodb (https://docs.mongodb.com/manual/aggregation/)
+* - recharts for data visualization (npm i recharts)
+*
  */
 
 dotenv.config();

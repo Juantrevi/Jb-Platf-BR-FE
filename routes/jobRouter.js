@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import {getAllJobs, createJob, updateJob, getSingleJob, deleteJob} from '../controllers/jobController.js';
+import {getAllJobs, createJob, updateJob, getSingleJob, deleteJob, showStats} from '../controllers/jobController.js';
 import {validateIdParam, validateJobInput} from "../middleware/validationMiddleware.js";
 import {checkForTestUser} from "../middleware/authMiddleware.js";
 
@@ -12,6 +12,9 @@ checkForTestUser;
 router.route('/')
     .get(getAllJobs)
     .post(checkForTestUser, validateJobInput, createJob);
+
+router.route('/stats')
+    .get(showStats);
 
 router.route('/:id')
     .get(validateIdParam, getSingleJob)

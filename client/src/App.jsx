@@ -23,6 +23,7 @@ import { loader as allJobsLoader} from "./pages/AllJobs.jsx";
 import { loader as editJobLoader } from './pages/EditJob';
 import { loader as adminLoader } from './pages/Admin';
 import { action as profileLoader } from './pages/Profile';
+import { loader as statsLoader } from './pages/Stats';
 
 
 
@@ -74,6 +75,7 @@ const router = createBrowserRouter([
                     {
                         path: "stats",
                         element: <Stats/>,
+                        loader: statsLoader,
                     },
                     {
                         path: 'edit-job/:id',
