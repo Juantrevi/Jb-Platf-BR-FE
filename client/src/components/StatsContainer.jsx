@@ -1,7 +1,11 @@
+// Import necessary components and icons
 import { FaSuitcaseRolling, FaCalendarCheck, FaBug } from 'react-icons/fa';
 import Wrapper from '../assets/wrappers/StatsContainer';
 import StatItem from './StatItem';
+
+// Define the StatsContainer component
 const StatsContainer = ({ defaultStats }) => {
+    // Define the stats array
     const stats = [
         {
             title: 'pending applications',
@@ -25,12 +29,19 @@ const StatsContainer = ({ defaultStats }) => {
             bcg: '#ffeeee',
         },
     ];
+
+    // Return the JSX to render
     return (
         <Wrapper>
-            {stats.map((item) => {
-                return <StatItem key={item.title} {...item} />;
-            })}
+            {
+                // Map over the stats array and render a StatItem for each stat
+                stats.map((item) => {
+                    return <StatItem key={item.title} {...item} />;
+                })
+            }
         </Wrapper>
     );
 };
+
+// Export the StatsContainer component
 export default StatsContainer;
