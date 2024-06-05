@@ -1,8 +1,9 @@
-import { Form, redirect, useNavigation, Link } from 'react-router-dom';
+import { Form, redirect, Link } from 'react-router-dom';
 import Wrapper from "../assets/wrappers/RegisterAndLoginPage.js";
 import Logo from "../components/Logo.jsx";
 import FormRow from "../components/FormRow.jsx";
 import customFetch from "../utils/customFetch.js";
+import {SubmitBtn} from "../components/index.js";
 
 /*
 * The FormData API provides a way to easily construct
@@ -30,9 +31,7 @@ export const action = async ({request}) => {
 }
 
 const Register = () => {
-    const navigation = useNavigation();
-    console.log(navigation)
-    const isSubmitting = navigation.state === 'submitting';
+
     return (
         <Wrapper>
             <Form method='post' className='form'>
@@ -46,9 +45,8 @@ const Register = () => {
                 <FormRow type='password' name='password' labelText='Password' defaultValue='secret123' />
 
 
-                <button type='submit' className='btn btn-block' disabled={isSubmitting}>
-                    {isSubmitting ? 'Submitting...' : 'Submit'}
-                </button>
+                <SubmitBtn formBtn />
+
                     <p>
                         Already a member?
                         <Link to='/login' className='member-btn'>Login</Link>
