@@ -36,6 +36,7 @@ import cloudinary from 'cloudinary';
 * - mockaroo for generating fake data (https://www.mockaroo.com/)
 * - mongoDb aggregation pipeline: Is a way to process data from a collection and return computed results inside mongodb (https://docs.mongodb.com/manual/aggregation/)
 * - recharts for data visualization (npm i recharts)
+* - queryparams for search, URL params. Used to pass info to a web server through the URL (npm i query-string)
 *
  */
 

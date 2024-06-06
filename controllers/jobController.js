@@ -17,9 +17,39 @@ import day from "dayjs";
 
 // Get all jobs (MongoDB)
 export const getAllJobs = async (req, res) => {
+    const {search, jobStatus, jobType, sort} = req.query;
+
+    const queryObject = {
+        createdBy: req.user.userId
+    };
+
+    if (search) {
+        queryObject.$or = [
+            {position:{ $regex: search, $options: 'i' }},
+            {company:{ $regex: search, $options: 'i' }},
+        ]
+    }
+
+    if (jobStatus && jobStatus !== 'all') {
+        queryObject.jobStatus = jobStatus;
+    }
+
+    if (jobType && jobType !== 'all') {
+        queryObject.jobType = jobType;
+    }
+
+    const sortOptions = {
+        newest: '-createdAt',
+        oldest: 'createdAt',
+        'a-z': 'position',
+        'z-a': '-position',
+    }
+
+    const sortKey = sortOptions[sort] || sortOptions.newest;
+
 
     // When the user makes the request with the token we only provide jobs that belongs to the specific user
-    const jobs = await Job.find({ createdBy: req.user.userId } );
+    const jobs = await Job.find(queryObject).sort(sortKey);
     res.status(StatusCodes.OK).json({ jobs });
 }
 
