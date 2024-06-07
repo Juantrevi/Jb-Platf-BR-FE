@@ -1,5 +1,5 @@
 // Define the FormRow component
-const FormRow = ({type, name, labelText, defaultValue}) => {
+const FormRow = ({type, name, labelText, defaultValue, onChange}) => {
     // Return the JSX to render
     return (
         // Each form row is wrapped in a div with the class 'form-row'
@@ -13,6 +13,7 @@ const FormRow = ({type, name, labelText, defaultValue}) => {
                 name={name}
                 className='form-input'
                 defaultValue={defaultValue || ''}
+                onChange={onChange}
                 required
             />
         </div>

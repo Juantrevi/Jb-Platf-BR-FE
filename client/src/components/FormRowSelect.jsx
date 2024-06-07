@@ -2,7 +2,7 @@
 import {JOB_TYPE} from "../../../utils/constants.js";
 
 // Define the FormRowSelect component
-const FormRowSelect = ({name, labelText, list, defaultValue=''}) => {
+const FormRowSelect = ({name, labelText, list, defaultValue='', onChange}) => {
     // Return the JSX to render
     return (
         // Each form row is wrapped in a div with the class 'form-row'
@@ -17,6 +17,7 @@ const FormRowSelect = ({name, labelText, list, defaultValue=''}) => {
                 id={name}
                 className='form-select'
                 defaultValue={defaultValue}
+                onChange={onChange}
             >
                 {/* The options for the select field are generated from the 'list' prop */}
                 {list.map((itemValue) => {
