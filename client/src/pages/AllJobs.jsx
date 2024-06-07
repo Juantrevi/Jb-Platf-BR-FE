@@ -4,9 +4,17 @@ import customFetch from '../utils/customFetch';
 import { useLoaderData } from 'react-router-dom';
 import { useContext, createContext } from 'react';
 
-export const loader = async () => {
+export const loader = async ({request}) => {
+
+    // Get the query parameters from the URL, and convert them to an object
+    const params = Object.fromEntries([
+        ...new URL(request.url).searchParams.entries(),
+    ]);
+
     try {
-        const data = await customFetch.get('/jobs');
+        const data = await customFetch.get('/jobs', {
+            params,
+        });
         console.log('Data from /jobs:', data);
         return  data ;
     } catch (error) {
