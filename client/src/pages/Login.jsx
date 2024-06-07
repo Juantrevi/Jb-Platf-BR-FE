@@ -44,8 +44,8 @@ const Login = () => {
             <Form method='post' className='form'>
                 <Logo/>
                 <h4 className='form-title'>Login</h4>
-                <FormRow type='email' name='email' placeholder='Username' defaultValue='john@email.com'/>
-                <FormRow type='password' name='password' placeholder='Password' defaultValue='secret123'/>
+                <FormRow type='email' name='email' placeholder='Username' />
+                <FormRow type='password' name='password' placeholder='Password' />
 
                 <SubmitBtn formBtn />
 

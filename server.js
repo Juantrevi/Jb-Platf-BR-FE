@@ -58,66 +58,28 @@ cloudinary.config({
 
 // This is a way to get the current directory
 const __dirname = dirname(fileURLToPath(import.meta.url));
+
 // Special middleware available with express to serve static files
 app.use(express.static(path.resolve(__dirname, './public')));
 
 app.use(cookieParser());
 app.use(express.json());
 
-/*
-* Example: Fetch API
-* This is a way of fetching an API from a server
-* No need to use anything extra like axios
-* */
-// fetch('https://www.course-api.com/react-useReducer-cart-project')
-//     .then(res => res.json())
-//     .then(data => console.log(data));
-
-/*
-* Example: Top level AWAIT in Node.js
-* We can right away use await in the top level of the file
-* whenever we need (Feature used when connecting to a DB)
-* */
-// try {
-//     const data = await fetch('https://www.course-api.com/react-useReducer-cart-project');
-//     const dataJson = await data.json();
-//     console.log(dataJson);
-// }catch (e) {
-//     console.log(e);
-// }
-
-//Regular GET request
-// app.get('/', (req, res) => {
-//     res.send('Hello world')
-// });
-//
-
-//Regular POST request (Testing validation)
-// app.post(
-//     '/api/v1/test',
-//     validateTest,
-//     (req, res) => {
-//         const { name } = req.body;
-//         res.json({ message: `Hello ${name}` });
-//     }
-// )
 
 app.use('/api/v1/jobs',authenticateUser, jobRouter);
 app.use('/api/v1/users', authenticateUser, userRouter);
 app.use('/api/v1/auth', authRouter);
 
+// For production
+app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, './public', 'index.html'));
+});
 
-// app.use('*', (req, res) => {
-//     res.status(404).json({ msg: 'not found' });
-// });
+app.use('*', (req, res) => {
+    res.status(404).json({ msg: 'not found' });
+});
 
 app.use(errorHandlerMiddleware);
-
-// //This middleware has to be the LAST ONE!
-// app.use((err, req, res, next) => {
-//     console.log(err);
-//     res.status(500).json({ msg: 'Something went wrong' });
-// });
 
 // Configuring the port
 const port = process.env.PORT || 5100;
