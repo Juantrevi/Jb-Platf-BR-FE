@@ -48,7 +48,7 @@ const Register = () => {
                 <SubmitBtn formBtn />
 
                     <p>
-                        Already a member? ->
+                        Already a member?
                         <Link to='/login' className='member-btn'>Login</Link>
                     </p>
             </Form>
