@@ -81,10 +81,10 @@ const router = createBrowserRouter([
                         action: addJob,
                     },
                     {
-                        path: "stats",
-                        element: <Stats/>,
-                        loader: statsLoader,
-                        errorElement: <ErrorElement/>
+                        path: 'stats',
+                        element: <Stats />,
+                        loader: statsLoader(queryClient),
+                        errorElement: <ErrorElement />,
                     },
                     {
                         path: 'edit-job/:id',
