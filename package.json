@@ -16,6 +16,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@tanstack/react-query": "^5.40.1",
+    "@tanstack/react-query-devtools": "^5.40.1",
     "@vitejs/plugin-react": "^4.3.0",
     "bcryptjs": "^2.4.3",
     "cloudinary": "^1.41.3",

@@ -37,6 +37,7 @@ import cloudinary from 'cloudinary';
 * - mongoDb aggregation pipeline: Is a way to process data from a collection and return computed results inside mongodb (https://docs.mongodb.com/manual/aggregation/)
 * - recharts for data visualization (npm i recharts)
 * - queryparams for search, URL params. Used to pass info to a web server through the URL (npm i query-string)
+* - react query for data fetching npm i @tanstack/react-query @tanstack/react-query-devtools IMPORTANT: react-query is a library that allows you to fetch, cache and update data in your React application. It is a way to manage the state of your application in a way that is easy to use and understand.
 *
  */
 

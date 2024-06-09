@@ -6291,6 +6291,7 @@ React Query is a powerful library that simplifies data fetching, caching, and sy
 
 ```sh
 npm i @tanstack/react-query@4.29.5 @tanstack/react-query-devtools@4.29.6
+npm i @tanstack/react-query @tanstack/react-query-devtools
 ```
 
 App.jsx
