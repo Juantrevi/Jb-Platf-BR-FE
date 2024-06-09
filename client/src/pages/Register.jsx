@@ -4,6 +4,7 @@ import Logo from "../components/Logo.jsx";
 import FormRow from "../components/FormRow.jsx";
 import customFetch from "../utils/customFetch.js";
 import {SubmitBtn} from "../components/index.js";
+import {toast} from "react-toastify";
 
 /*
 * The FormData API provides a way to easily construct
@@ -24,7 +25,7 @@ export const action = async ({request}) => {
         await customFetch.post('/auth/register', data);
         return redirect('/login');
     }catch (error) {
-        console.log(error);
+        toast.error(error.response.data.msg);
         return error;
     }
 

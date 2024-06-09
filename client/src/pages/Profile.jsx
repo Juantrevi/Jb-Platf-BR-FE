@@ -1,6 +1,6 @@
 import {FormRow, SubmitBtn} from '../components';
 import Wrapper from '../assets/wrappers/DashboardFormPage';
-import { useOutletContext } from 'react-router-dom';
+import {redirect, useOutletContext} from 'react-router-dom';
 import { Form } from 'react-router-dom';
 import customFetch from '../utils/customFetch';
 import { toast } from 'react-toastify';
@@ -56,24 +56,25 @@ const resizeImage = (file) => new Promise((resolve) => {
     };
 });
 
-export const action = async ({ request }) => {
-    let formData = await request.formData();
-
-    let file = formData.get('avatar');
-    if (file && file.size > 500000) {
-        file = await resizeImage(file);
-        formData.delete('avatar');
-        formData.append('avatar', file);
-    }
-
-    try {
-        await customFetch.patch('/users/update-user', formData);
-        toast.success('Profile updated successfully');
-    } catch (error) {
-        toast.error(error?.response?.data?.msg);
-    }
-    return null;
-};
+export const action =
+    (queryClient) =>
+        async ({ request }) => {
+            const formData = await request.formData();
+            let file = formData.get('avatar');
+            // Resize the image
+            file = await resizeImage(file);
+            // Replace the original file with the resized file in the form data
+            formData.set('avatar', file);
+            try {
+                await customFetch.patch('/users/update-user', formData);
+                queryClient.invalidateQueries(['user']);
+                toast.success('Profile updated successfully');
+                return redirect('/dashboard/profile');
+            } catch (error) {
+                toast.error(error?.response?.data?.msg);
+                return null;
+            }
+        };
 
 const Profile = () => {
     const { user } = useOutletContext();

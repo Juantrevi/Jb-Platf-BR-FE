@@ -13,7 +13,8 @@ import { dirname } from 'path';
 import { fileURLToPath } from 'url';
 import path from 'path';
 import cloudinary from 'cloudinary';
-
+import helmet from 'helmet';
+import mongoSanitize from 'express-mongo-sanitize';
 
 /*
 * Considerations:
@@ -38,7 +39,7 @@ import cloudinary from 'cloudinary';
 * - recharts for data visualization (npm i recharts)
 * - queryparams for search, URL params. Used to pass info to a web server through the URL (npm i query-string)
 * - react query for data fetching npm i @tanstack/react-query @tanstack/react-query-devtools IMPORTANT: react-query is a library that allows you to fetch, cache and update data in your React application. It is a way to manage the state of your application in a way that is easy to use and understand.
-*
+* - helmet express-mongo-sanitize express-rate-limit (npm i helmet express-mongo-sanitize express-rate-limit) for security
  */
 
 dotenv.config();
@@ -59,6 +60,9 @@ cloudinary.config({
 
 // This is a way to get the current directory
 const __dirname = dirname(fileURLToPath(import.meta.url));
+//
+app.use(helmet());
+app.use(mongoSanitize());
 
 // Special middleware available with express to serve static files
 app.use(express.static(path.resolve(__dirname, './client/dist')));
@@ -70,6 +74,15 @@ app.use(express.json());
 app.use('/api/v1/jobs',authenticateUser, jobRouter);
 app.use('/api/v1/users', authenticateUser, userRouter);
 app.use('/api/v1/auth', authRouter);
+
+app.use(
+    helmet.contentSecurityPolicy({
+        useDefaults: true,
+        directives: {
+            "img-src": ["'self'", "https: data:"],
+        },
+    })
+);
 
 // For production
 app.get('*', (req, res) => {

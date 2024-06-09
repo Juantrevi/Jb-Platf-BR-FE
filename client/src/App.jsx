@@ -68,17 +68,17 @@ const router = createBrowserRouter([
             {
                 path: "login",
                 element: <Login/>,
-                action: loginAction,
+                action: loginAction(queryClient),
             },
             {
                 path: "dashboard",
-                element: <DashboardLayout />,
-                loader: dashboardLoader,
+                element: <DashboardLayout queryClient={queryClient} />,
+                loader: dashboardLoader(queryClient),
                 children: [
                     {
                         index: true,
                         element: <AddJob/>,
-                        action: addJob,
+                        action: addJob(queryClient),
                     },
                     {
                         path: 'stats',
@@ -89,22 +89,22 @@ const router = createBrowserRouter([
                     {
                         path: 'edit-job/:id',
                         element: <EditJob />,
-                        loader: editJobLoader,
-                        action: editJobAction,
+                        loader: editJobLoader(queryClient),
+                        action: editJobAction(queryClient),
                     },
                     {
                         path: 'delete-job/:id',
-                        action: deleteJobAction
+                        action: deleteJobAction(queryClient),
                     },
                     {
                         path: "all-jobs",
                         element: <AllJobs/>,
-                        loader: allJobsLoader,
+                        loader: allJobsLoader(queryClient),
                     },
                     {
                         path: "profile",
                         element: <Profile/>,
-                        action: profileLoader,
+                        action: profileLoader(queryClient),
                     },
                     {
                         path: 'admin',
