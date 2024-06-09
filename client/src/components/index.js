@@ -12,3 +12,4 @@ export { default as BarChart } from './BarChart.jsx';
 export { default as AreaChart } from './AreaChart.jsx';
 export { default as StatsContainer } from './StatsContainer.jsx';
 export { default as ChartsContainer } from './ChartsContainer.jsx';
+export { default as Loading } from './Loading.jsx';
